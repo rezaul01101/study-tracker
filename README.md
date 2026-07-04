@@ -51,6 +51,37 @@ npm run dev
 
 Open the printed local URL (usually `http://localhost:5173`).
 
+### 3. Or: run both with Docker Compose
+
+If you'd rather not run two terminals, from the repo root:
+
+```bash
+docker compose up --build
+```
+
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:4000` (docs at `http://localhost:4000/api-docs`)
+
+Changing the program start date works exactly the same as without Docker:
+
+```bash
+curl -X PUT http://localhost:4000/api/config \
+  -H "Content-Type: application/json" \
+  -d '{"startDate":"2026-07-06"}'
+```
+
+`backend/storage/` is bind-mounted straight through to the containers, so your notes, photos,
+and streak history live in the same place on disk as always (`backend/storage/`) and survive
+`docker compose down`/rebuilds untouched — back that folder up exactly as documented below.
+
+Re-run `docker compose up --build` (the `--build` matters) whenever you change source code —
+this setup builds production-style images rather than hot-reloading, so it's meant for
+day-to-day *use* of the app, not active development. For active development, keep using the
+two-terminal `npm start` / `npm run dev` workflow described above.
+
+Note: if you run both the Docker frontend and a local `npm run dev` frontend at the same time,
+they'll collide on port 5173 — stop one before starting the other.
+
 ## How the daily content is generated
 
 `backend/src/data/weekThemes.js` defines the 26-week curriculum (DSA topic, system design

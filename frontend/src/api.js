@@ -1,4 +1,4 @@
-export const ORIGIN_URL = "http://localhost:4000";
+export const ORIGIN_URL = import.meta.env.VITE_API_ORIGIN ?? "http://localhost:4000";
 const BASE_URL = `${ORIGIN_URL}/api`;
 
 async function request(path, options = {}) {
