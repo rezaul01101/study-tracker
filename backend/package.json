@@ -1,0 +1,17 @@
+{
+  "name": "study-tracker-backend",
+  "version": "1.0.0",
+  "description": "Express API for the 6-month DSA / System Design / Project learning tracker",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^2.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

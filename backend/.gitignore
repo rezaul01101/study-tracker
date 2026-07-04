@@ -1,0 +1,7 @@
+node_modules/
+
+# Uploaded note photos and the SQLite database are local data, not source.
+storage/uploads/
+storage/study.db
+storage/study.db-shm
+storage/study.db-wal
