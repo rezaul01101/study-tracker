@@ -70,9 +70,13 @@ curl -X PUT http://localhost:4000/api/config \
   -d '{"startDate":"2026-07-06"}'
 ```
 
-`backend/storage/` is bind-mounted straight through to the containers, so your notes, photos,
-and streak history live in the same place on disk as always (`backend/storage/`) and survive
-`docker compose down`/rebuilds untouched — back that folder up exactly as documented below.
+Notes, photos, and streak history live in the `storage` named Docker volume, which survives
+`docker compose down`/rebuilds. Back it up with:
+
+```bash
+docker run --rm -v study-tracker_storage:/data -v "$PWD":/backup alpine \
+  tar czf /backup/study-tracker-storage-backup.tar.gz -C /data .
+```
 
 Re-run `docker compose up --build` (the `--build` matters) whenever you change source code —
 this setup builds production-style images rather than hot-reloading, so it's meant for
@@ -95,8 +99,8 @@ Want to change the curriculum content? Edit `weekThemes.js` — everything downs
 
 ## Notes
 
-- Storage lives under `backend/storage/`: `config.json` + `progress.json` (JSON), `study.db`
-  (SQLite — per-day notes and image metadata), and `uploads/` (the uploaded photo files).
-  Back that folder up to preserve your notes, photos, and streak history.
+- Storage: `config.json` + `progress.json` (JSON), `study.db` (SQLite — per-day notes and image
+  metadata), and `uploads/` (the uploaded photo files). Under Docker this lives in the `storage`
+  named volume (see backup command above); without Docker it's `backend/storage/` on disk.
 - This is a personal-use tool. If you ever deploy it somewhere shared, add authentication before
   exposing the `/api/config` and `/api/days/:date/tasks/:taskId/toggle` endpoints publicly.
